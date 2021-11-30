@@ -98,7 +98,7 @@ router.get('/', (req, res) => {
 
   router.get('/:id/comments', async (req, res) => {
     try {
-      const posts = await Posts.find(req.params.id)
+      const posts = await Posts.findPostComments(req.params.id)
       if (!posts) {
         res.status(404).json({
             message: "The post with the specified ID does not exist"
