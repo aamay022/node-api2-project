@@ -40,7 +40,7 @@ router.get('/', (req, res) => {
                 message: "Please provide title and contents for the post" 
             })
         }else{
-            const newPost = await Posts.insert({title: req.body.title , contents: req.body.contents , id: req.body.id})
+            const newPost = await Posts.insert(req.body)
             res.status(201).json(newPost)
         }
       } catch (err){
@@ -54,15 +54,15 @@ router.get('/', (req, res) => {
     const changes = req.body;
 
     Posts.update(req.params.id, changes)
-      .then(posts => {
-        if (!posts) {
+      .then(post => {
+        if (!post) {
           res.status(404).json({ message: "The post with the specified ID does not exist" });
         } else if(!req.body.title || !req.body.contents){
             res.status(400).json({
                 message: "Please provide title and contents for the post" 
             })
         } else {
-            res.status(200).json(posts)
+            res.status(200).json(post)
         }
       })
       .catch(error => {

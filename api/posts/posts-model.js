@@ -19,21 +19,21 @@ function findById(id) {
   return db('posts').where({ id: Number(id) }).first()
 }
 
-function insert(post) {
-  return db('posts')
-    .insert(post)
-    .then(ids => ({ id: ids[0] }));
+async function insert(post) {
+  const [id] = await db('posts').insert(post);
+
+  return findById(id);
 }
 
-function update(id, post) {
+function update(id, changes) {
   return db('posts')
-    .where('id', Number(id))
-    .update(post);
+    .where('id', id)
+    .update(changes, '*')
 }
 
 function remove(id) {
   return db('posts')
-    .where('id', Number(id))
+    .where('id', id)
     .del();
 }
 
